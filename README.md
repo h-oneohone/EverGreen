@@ -21,5 +21,3 @@ Features:
 - In `ReplaySite/settings.py` change the value of `MEDIA_ROOT` to the path of the parent directory of the folder that the recordings for this camera are in (So here that would be the parent directory of `camera1`). See the image below. Make sure to use forwardslashes and not backslashes.
 - Rerun the server and access `http://127.0.0.1:8000/`.
 
-![Path image](https://i.imgur.com/pFaLzCR.jpg)
-
