@@ -2,6 +2,7 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render
 from django.conf import settings
 from .models import Camera
+from .process_image import draw_figure, detect_pose
 from math import ceil
 import os
 import cv2
@@ -39,6 +40,8 @@ def stream(cam_name):
         if not ret:
             print("Error: failed to capture image")
             break
+
+        frame, log = draw_figure(frame)
 
         cv2.imwrite('demo.jpg', frame)
         yield (b'--frame\r\n'
