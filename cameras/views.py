@@ -25,8 +25,12 @@ def watch(request, cam_name):
                   template_name="home/unknown_page.html",
                   context={"cameras": Camera.objects.all()})
 
-def stream():
-    id = "rtsp://iocldg:iocldg123123@14.241.197.248:2006/cam/realmonitor?channel=1&subtype=0"
+def stream(cam_name):
+    # id = "rtsp://iocldg:iocldg123123@14.241.197.248:2006/cam/realmonitor?channel=1&subtype=0"
+    id = ""
+    for cam in Camera.objects.all():
+        if cam.title == cam_name:
+            id = cam.url
     cap = cv2.VideoCapture(id) 
 
     while True:
@@ -40,9 +44,8 @@ def stream():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + open('demo.jpg', 'rb').read() + b'\r\n')
 
-def video_feed(request):
-    return StreamingHttpResponse(stream(), content_type='multipart/x-mixed-replace; boundary=frame')
-
+def video_feed(request, cam_name):
+    return StreamingHttpResponse(stream(cam_name), content_type='multipart/x-mixed-replace; boundary=frame')
 
 def replay(request,cam_name, page_number=1):
     try:

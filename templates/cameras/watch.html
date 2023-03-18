@@ -5,7 +5,7 @@
 <center>
     <H1><strong>{{camera.title}}</strong></H1>
     <!-- <iframe id="CameraIframe" src="{{camera.url}}" width="1285" height="725"></iframe> -->
-    <img src="{% url 'video-feed' %}" alt="" width="1285" height="725">
+    <img src="{% url 'video-feed' camera.title%}" alt="" width="1285" height="725">
 </center>
 
 <center>
