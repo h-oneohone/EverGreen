@@ -22,12 +22,13 @@ class mail_sender():
         self.newMessage['To'] = self.Receiver_Email                   
         self.newMessage.set_content(content)
 
-        with open('url_image', 'rb') as f:
-            image_data = f.read()
-            image_type = imghdr.what(f.name)
-            image_name = f.name
+        if url_image is not None:
+            with open(url_image, 'rb') as f:
+                image_data = f.read()
+                image_type = imghdr.what(f.name)
+                image_name = f.name
+            self.newMessage.add_attachment(image_data, maintype='image', subtype=image_type, filename=image_name)
 
-        self.newMessage.add_attachment(image_data, maintype='image', subtype=image_type, filename=image_name)
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             smtp.login(self.Sender_Email, self.Password)              
             smtp.send_message(self.newMessage)
