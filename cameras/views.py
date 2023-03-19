@@ -41,6 +41,7 @@ def stream(cam_name):
             print("Error: failed to capture image")
             break
 
+        # Image Processing
         frame, log = draw_figure(frame)
 
         cv2.imwrite('demo.jpg', frame)

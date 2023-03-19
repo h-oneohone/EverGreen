@@ -7,6 +7,7 @@ import os
 mp_pose = mp.solutions.pose
 
 def detect_pose(image, pose, draw = False, display = False):
+    # Drawing tools
     mp_drawing = mp.solutions.drawing_utils
     copycat = image.copy()
     RGB_rendered = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -35,7 +36,7 @@ def detect_pose(image, pose, draw = False, display = False):
     else:
         return copycat, result
 
-
+# Main function
 def draw_figure(image):
     # For images
     image_pose = mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.5, min_tracking_confidence = 0.5)
@@ -43,7 +44,20 @@ def draw_figure(image):
     # For videos
     video_pose = mp_pose.Pose(static_image_mode = True, min_detection_confidence = 0.6, min_tracking_confidence = 0.6)
 
-    # Drawing tools
-
     output, log = detect_pose(image, video_pose, draw=True, display=False)
     return output, log
+
+def reorder(x):
+    x = [min(x[0], x[2]), min(x[1], x[3]), max(x[0], x[2]), max(x[1], x[3])]
+    return x
+
+def crossing_boxes(tuple1, tuple2):
+    tuple1 = reorder(tuple1)
+    tuple2 = reorder(tuple2)
+    if tuple1[0] >= tuple2[0] and tuple1[0] <= tuple2[2]:
+        if tuple1[1] >= tuple2[1] and tuple1[1] <= tuple2[3]:
+            return True
+    if tuple2[0] >= tuple1[0] and tuple2[0] <= tuple1[2]:
+        if tuple2[1] >= tuple1[1] and tuple2[1] <= tuple1[3]:
+            return True
+    return False
