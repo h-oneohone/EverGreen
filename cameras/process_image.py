@@ -7,6 +7,7 @@ import os
 mp_pose = mp.solutions.pose
 
 def detect_pose(image, pose, draw = False, display = False):
+    h, w, c = image.shape
     # Drawing tools
     mp_drawing = mp.solutions.drawing_utils
     copycat = image.copy()
@@ -22,6 +23,24 @@ def detect_pose(image, pose, draw = False, display = False):
                                  connection_drawing_spec = mp_drawing.DrawingSpec(color = (49,125,237),
                                                                                  thickness = 1,
                                                                                  circle_radius = 1))
+        
+        x_max = 0
+        y_max = 0
+        x_min = w
+        y_min = h
+        if result.pose_landmarks:
+            for lm in result.pose_landmarks.landmark:
+                x, y = int(lm.x * w), int(lm.y * h)
+                if x > x_max:
+                    x_max = x
+                if x < x_min:
+                    x_min = x
+                if y > y_max:
+                    y_max = y
+                if y < y_min:
+                    y_min = y
+            cv2.rectangle(copycat, (x_min, y_min), (x_max, y_max), (49,125,237), 10)
+
     if display:
         plt.figure(figsize = [22, 22])
         plt.subplot(121)
@@ -43,7 +62,7 @@ def draw_figure(image):
 
     # For videos
     video_pose = mp_pose.Pose(static_image_mode = True, min_detection_confidence = 0.6, min_tracking_confidence = 0.6)
-
+    
     output, log = detect_pose(image, video_pose, draw=True, display=False)
     return output, log
 
