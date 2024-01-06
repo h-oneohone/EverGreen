@@ -1,9 +1,12 @@
-# Django Camera view and playback
-
+# EverGreen
+The system monitors people appearing in the camera and detects littering behavior in real time
 Project status: Finished.
 
 Features:
-- Play back h264 .mp4 recordings.
+- Tracking and detect people littering in real time.
+- Send an email through google email when littering is detected.
+- Save the video of people littering.
+- Play back videos of people littering recordings.
 - View live camera feeds.
 - Support for multiple cameras.
 
