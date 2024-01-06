@@ -66,6 +66,20 @@ def draw_figure(image):
     output, log = detect_pose(image, video_pose, draw=True, display=False)
     return output, log
 
+
+
+def draw_bbox(image):
+    frame = cv2.rectangle(
+        image,
+        (200,200),
+        (500, 500),
+        (0,0,0),
+        10
+    )
+    return frame
+
+
+
 def reorder(x):
     x = [min(x[0], x[2]), min(x[1], x[3]), max(x[0], x[2]), max(x[1], x[3])]
     return x
